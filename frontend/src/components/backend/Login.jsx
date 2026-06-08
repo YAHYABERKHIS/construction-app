@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/Auth";
-
 const Login = () => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -42,21 +43,15 @@ const Login = () => {
           token: result.token,
         };
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
         login(userInfo);
-
-        toast.success("Login successful!");
-
-        // Now navigate
+        toast.success(t("admin.login_success"));
         navigate("/admin/dashboard");
       } else {
-        toast.error(
-          result?.error || "Login failed. Please check your credentials."
-        );
+        toast.error(result?.error || t("admin.login_failed"));
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error(error?.message || "An error occurred during login");
+      toast.error(error?.message || t("admin.login_error"));
     } finally {
       setLoading(false);
     }
@@ -70,13 +65,12 @@ const Login = () => {
             <div className="card-body py-4 px-4">
               <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="text-center mb-4">
-                  <h4>Login Here</h4>
+                  <h4>{t("admin.login_title")}</h4>
                 </div>
 
-                {/* Email Field */}
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                    Email
+                    {t("admin.email")}
                   </label>
                   <div className="input-group has-validation">
                     <span className="input-group-text bg-light">
@@ -85,15 +79,13 @@ const Login = () => {
                     <input
                       id="email"
                       type="email"
-                      placeholder="Enter your email"
-                      className={`form-control ${
-                        errors.email ? "is-invalid" : ""
-                      }`}
+                      placeholder={t("admin.email_ph")}
+                      className={`form-control ${errors.email ? "is-invalid" : ""}`}
                       {...register("email", {
-                        required: "Email is required",
+                        required: t("admin.email_required"),
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Please enter a valid email address",
+                          message: t("admin.email_invalid"),
                         },
                       })}
                     />
@@ -105,10 +97,9 @@ const Login = () => {
                   </div>
                 </div>
 
-                {/* Password Field */}
                 <div className="mb-4">
                   <label htmlFor="password" className="form-label">
-                    Password
+                    {t("admin.password")}
                   </label>
                   <div className="input-group has-validation">
                     <span className="input-group-text bg-light">
@@ -117,12 +108,10 @@ const Login = () => {
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      className={`form-control ${
-                        errors.password ? "is-invalid" : ""
-                      }`}
+                      placeholder={t("admin.password_ph")}
+                      className={`form-control ${errors.password ? "is-invalid" : ""}`}
                       {...register("password", {
-                        required: "Password is required",
+                        required: t("admin.password_required"),
                       })}
                     />
                     <button
@@ -141,7 +130,6 @@ const Login = () => {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   className="btn btn-primary w-100 py-2 mt-2"
@@ -153,11 +141,11 @@ const Login = () => {
                         className="spinner-border spinner-border-sm me-2"
                         role="status"
                         aria-hidden="true"
-                      ></span>
-                      Processing...
+                      />
+                      {t("admin.login_loading")}
                     </>
                   ) : (
-                    "Login"
+                    t("admin.login_btn")
                   )}
                 </button>
               </form>

@@ -6,7 +6,7 @@ import useGetToken from "../../../hooks/useGetToken";
 const ProjectTableRow = ({ project, columns, windowWidth, onDelete }) => {
   const { token } = useGetToken();
   const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete?")) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ?")) {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/projects/${project.id}`,
         {
@@ -32,6 +32,25 @@ const ProjectTableRow = ({ project, columns, windowWidth, onDelete }) => {
         switch (column.key) {
           case "id":
             return <td key={column.key}>{project.id}</td>;
+          case "image":
+            return (
+              <td key={column.key}>
+                {project.image ? (
+                  <img
+                    src={`${import.meta.env.VITE_FILE_URL}/uploads/projects/small/${project.image}`}
+                    alt={project.title}
+                    style={{
+                      width: 56,
+                      height: 44,
+                      objectFit: "cover",
+                      borderRadius: 8,
+                    }}
+                  />
+                ) : (
+                  <span className="text-muted">—</span>
+                )}
+              </td>
+            );
           case "title":
             return <td key={column.key}>{project.title}</td>;
           case "slug":
@@ -44,7 +63,7 @@ const ProjectTableRow = ({ project, columns, windowWidth, onDelete }) => {
                     project.status ? "bg-success" : "bg-danger"
                   } rounded-pill px-2 py-1`}
                 >
-                  {project.status ? "Active" : "Block"}
+                  {project.status ? "Actif" : "Bloqué"}
                 </span>
               </td>
             );
@@ -56,14 +75,14 @@ const ProjectTableRow = ({ project, columns, windowWidth, onDelete }) => {
                     to={`/admin/projects/edit/${project.id}`}
                     className="btn btn-primary btn-sm me-1 mb-1"
                   >
-                    {windowWidth < 400 ? "E" : "Edit"}
+                    {windowWidth < 400 ? "M" : "Modifier"}
                   </Link>
                   <Link
                     to="#"
                     onClick={handleDelete}
                     className="btn btn-secondary btn-sm mb-1"
                   >
-                    {windowWidth < 400 ? "D" : "Delete"}
+                    {windowWidth < 400 ? "S" : "Supprimer"}
                   </Link>
                 </div>
               </td>

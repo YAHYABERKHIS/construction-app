@@ -1,14 +1,17 @@
 import React, { useMemo, useRef, useState } from "react";
 import Sidebar from "../../Sidebar";
-import { ArrowLeftCircle, Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import JoditEditor from "jodit-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetToken from "../../../hooks/useGetToken";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import useAdminForm from "../../../hooks/useAdminForm";
+import useFormLanguageSync from "../../../hooks/useFormLanguageSync";
+import AdminPageHeader from "../AdminPageHeader";
 
-const Edit = ({ placeholder }) => {
+const Edit = () => {
+  const { form, validation, actions, statusOptions, language } = useAdminForm();
   const editor = useRef(null);
   const [isDisable, setIsDisable] = useState(false);
   const [imageId, setImageId] = useState(null);
@@ -19,16 +22,18 @@ const Edit = ({ placeholder }) => {
   const { id } = useParams();
   const { token } = useGetToken();
   const navigate = useNavigate();
-  const config = useMemo(
+  const editorConfig = useMemo(
     () => ({
       readonly: false,
-      placeholder: placeholder || "",
+      placeholder: form.content_ph,
+      direction: language === "ar" ? "rtl" : "ltr",
     }),
-    [placeholder]
+    [form.content_ph, language]
   );
   const {
     register,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm({
     defaultValues: async () => {
@@ -53,6 +58,8 @@ const Edit = ({ placeholder }) => {
       };
     },
   });
+  useFormLanguageSync(clearErrors);
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -126,31 +133,21 @@ const Edit = ({ placeholder }) => {
           <div className="col-md-9">
             <div className="card shadow border-0">
               <div className="card-body p-4">
-                <div className="d-flex justify-content-between">
-                  <h4 className="h-5 d-flex">
-                    <Briefcase size={28} className="me-2" />
-                    {`Services > Edit`}
-                  </h4>
-                  <Link to="/admin/services" className="btn btn-primary d-flex">
-                    <ArrowLeftCircle className="me-2" />
-                    Back
-                  </Link>
-                </div>
+                <AdminPageHeader
+                  sectionKey="services"
+                  mode="edit"
+                  icon={Briefcase}
+                  backTo="/admin/services"
+                />
                 <hr />
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Name
-                    </label>
+                    <label className="form-label">{form.title}</label>
                     <input
                       type="text"
-                      className={`form-control ${
-                        errors.title ? "is-invalid" : ""
-                      }`}
-                      placeholder="Enter name"
-                      {...register("title", {
-                        required: "This title field is required",
-                      })}
+                      className={`form-control ${errors.title ? "is-invalid" : ""}`}
+                      placeholder={form.title_ph}
+                      {...register("title", { required: validation.title_required })}
                     />
                     {errors.title && (
                       <p className="invalid-feedback">
@@ -159,18 +156,12 @@ const Edit = ({ placeholder }) => {
                     )}
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Slug
-                    </label>
+                    <label className="form-label">{form.slug}</label>
                     <input
                       type="text"
-                      className={`form-control ${
-                        errors.slug ? "is-invalid" : ""
-                      }`}
-                      placeholder="Enter Slug"
-                      {...register("slug", {
-                        required: "This slug field is required",
-                      })}
+                      className={`form-control ${errors.slug ? "is-invalid" : ""}`}
+                      placeholder={form.slug_ph}
+                      {...register("slug", { required: validation.slug_required })}
                     />
                     {errors.slug && (
                       <p className="invalid-feedback">
@@ -179,43 +170,34 @@ const Edit = ({ placeholder }) => {
                     )}
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Short Description
-                    </label>
+                    <label className="form-label">{form.short_desc}</label>
                     <textarea
-                      placeholder="Short Desciption"
+                      placeholder={form.short_desc_ph}
                       className="form-control"
                       {...register("short_desc")}
-                    ></textarea>
+                    />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Content
-                    </label>
+                    <label className="form-label">{form.content}</label>
                     <JoditEditor
                       ref={editor}
                       value={content}
-                      config={config}
+                      config={editorConfig}
                       tabIndex={1} // tabIndex of textarea
                       onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
                       onChange={(newContent) => {}}
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Status
-                    </label>
-                    <select className="form-control" {...register("status")}>
-                      <option value="1">Active</option>
-                      <option value="0">Block</option>
+                    <label className="form-label">{form.status}</label>
+                    <select className="form-select" {...register("status")}>
+                      <option value="1">{statusOptions.active}</option>
+                      <option value="0">{statusOptions.blocked}</option>
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="" className="form-label">
-                      Image
-                    </label>
-                    <br />
-                    <input type="file" onChange={handleFile} />
+                    <label className="form-label">{form.image}</label>
+                    <input type="file" className="form-control" onChange={handleFile} />
                   </div>
                   <div className="pb-3">
                     {newImagePreview ? (
@@ -237,10 +219,11 @@ const Edit = ({ placeholder }) => {
                     ) : null}
                   </div>
                   <button
+                    type="submit"
                     className="btn btn-primary w-100"
-                    disabled={isDisable}
+                    disabled={isDisable || loading}
                   >
-                    {loading ? "Updating..." : "Update"}
+                    {loading ? form.saving : actions.save}
                   </button>
                 </form>
               </div>

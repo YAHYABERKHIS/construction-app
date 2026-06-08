@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import ServiceImg from "../../../assets/images/construction1.jpg";
 import { toast } from "react-toastify";
 import useGetToken from "../../../hooks/useGetToken";
+import useAdminForm from "../../../hooks/useAdminForm";
 
 const ServiceTableRow = ({ service, columns, windowWidth, onDelete }) => {
   const { token } = useGetToken();
+  const { t, statusOptions } = useAdminForm();
+
   const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete?")) {
+    if (confirm(t("admin.confirm_delete"))) {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/services/${service.id}`,
         {
@@ -27,12 +30,17 @@ const ServiceTableRow = ({ service, columns, windowWidth, onDelete }) => {
       }
     }
   };
+
   return (
     <tr>
       {columns.map((column) => {
         switch (column.key) {
           case "id":
-            return <td key={column.key} className="align-middle">{service.id}</td>;
+            return (
+              <td key={column.key} className="align-middle">
+                {service.id}
+              </td>
+            );
           case "image":
             return (
               <td key={column.key} className="align-middle">
@@ -49,9 +57,17 @@ const ServiceTableRow = ({ service, columns, windowWidth, onDelete }) => {
               </td>
             );
           case "title":
-            return <td key={column.key} className="align-middle">{service.title}</td>;
+            return (
+              <td key={column.key} className="align-middle">
+                {service.title}
+              </td>
+            );
           case "slug":
-            return <td key={column.key} className="align-middle">{service.slug}</td>;
+            return (
+              <td key={column.key} className="align-middle">
+                {service.slug}
+              </td>
+            );
           case "status":
             return (
               <td key={column.key} className="align-middle">
@@ -60,27 +76,27 @@ const ServiceTableRow = ({ service, columns, windowWidth, onDelete }) => {
                     service.status ? "bg-success" : "bg-danger"
                   } rounded-pill px-2 py-1`}
                 >
-                  {service.status ? "Active" : "Block"}
+                  {service.status ? statusOptions.active : statusOptions.blocked}
                 </span>
               </td>
             );
           case "actions":
             return (
               <td key={column.key} className="align-middle">
-                <div className="d-flex flex-wrap">
+                <div className="d-flex flex-wrap gap-1">
                   <Link
                     to={`/admin/services/edit/${service.id}`}
-                    className="btn btn-primary btn-sm me-1 mb-1"
+                    className="btn btn-primary btn-sm"
                   >
-                    {windowWidth < 400 ? "E" : "Edit"}
+                    {windowWidth < 400 ? t("admin.edit").charAt(0) : t("admin.edit")}
                   </Link>
-                  <Link
-                    to="#"
+                  <button
+                    type="button"
                     onClick={handleDelete}
-                    className="btn btn-secondary btn-sm mb-1"
+                    className="btn btn-secondary btn-sm"
                   >
-                    {windowWidth < 400 ? "D" : "Delete"}
-                  </Link>
+                    {windowWidth < 400 ? t("admin.delete").charAt(0) : t("admin.delete")}
+                  </button>
                 </div>
               </td>
             );

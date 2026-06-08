@@ -1,26 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const { t } = useTranslation();
+
   return (
     <main>
       <section className="section-1">
-        <div className="hero d-flex align-items-center">
-          <div className="container-fluid">
+        <div className="hero d-flex align-items-start pt-5">
+          <div className="container-fluid mt-5">
             <div className="text-center">
-              <span>Welcome Amazing Constructions</span>
+              <span>{t('home.welcome')}</span>
               <h1>
-                Crafting dreams with
-                <br className="d-none d-md-block" /> precision and excellence.
+                {t('home.title')}
               </h1>
               <p>
-                We excel transforming visions into reality through outstanding
-                craftsmanship and precise <br className="d-none d-md-block" />
-                attention to detail. With years of experience and a dedication
-                to quality.
+                {t('home.subtitle')}
               </p>
-              <div className="mt-4 d-md-block">
-                <a className="btn btn-primary large-btn d-block d-md-inline-block mb-3 mb-md-0">Contact Now</a>
-                <a className="btn btn-secondary large-btn d-block d-md-inline-block ms-md-2">View Projects</a>
+              <div className="mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+                <Link
+                  to="/demander-service"
+                  className="btn btn-primary large-btn"
+                >
+                  {t('home.contact_us')}
+                </Link>
+                <Link
+                  to="/projects"
+                  className="btn btn-secondary large-btn"
+                >
+                  {t('home.view_projects')}
+                </Link>
               </div>
             </div>
           </div>

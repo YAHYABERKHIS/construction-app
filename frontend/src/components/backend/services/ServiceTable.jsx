@@ -1,34 +1,36 @@
 import React from "react";
 import ServiceTableRow from "./ServiceTableRow";
+import useAdminForm from "../../../hooks/useAdminForm";
 
 const ServiceTable = ({ services, windowWidth, searchTerm, onDelete }) => {
-  // Get responsive column configuration
+  const { t, form } = useAdminForm();
+
   const getColumns = () => {
     if (windowWidth < 576) {
       return [
         { key: "id", label: "ID" },
-        { key: "image", label: "Image" },
-        { key: "title", label: "Name" },
-        { key: "actions", label: "Actions" },
-      ];
-    } else if (windowWidth < 768) {
-      return [
-        { key: "id", label: "ID" },
-        { key: "image", label: "Image" },
-        { key: "title", label: "Name" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
-      ];
-    } else {
-      return [
-        { key: "id", label: "ID" },
-        { key: "image", label: "Image" },
-        { key: "title", label: "Name" },
-        { key: "slug", label: "Slug" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
+        { key: "image", label: t("admin.image") },
+        { key: "title", label: t("admin.title_col") },
+        { key: "actions", label: t("admin.actions") },
       ];
     }
+    if (windowWidth < 768) {
+      return [
+        { key: "id", label: "ID" },
+        { key: "image", label: t("admin.image") },
+        { key: "title", label: t("admin.title_col") },
+        { key: "status", label: t("admin.status") },
+        { key: "actions", label: t("admin.actions") },
+      ];
+    }
+    return [
+      { key: "id", label: "ID" },
+      { key: "image", label: t("admin.image") },
+      { key: "title", label: t("admin.title_col") },
+      { key: "slug", label: t("admin.slug") },
+      { key: "status", label: t("admin.status") },
+      { key: "actions", label: t("admin.actions") },
+    ];
   };
 
   const columns = getColumns();
@@ -56,13 +58,8 @@ const ServiceTable = ({ services, windowWidth, searchTerm, onDelete }) => {
             ))
           ) : (
             <tr>
-              <td
-                colSpan={columns.length}
-                className="text-center fw-bold text-danger py-4"
-              >
-                {searchTerm
-                  ? "No matching services found"
-                  : "No Service Available"}
+              <td colSpan={columns.length} className="text-center fw-bold text-danger py-4">
+                {searchTerm ? form.no_services_match : form.no_services}
               </td>
             </tr>
           )}

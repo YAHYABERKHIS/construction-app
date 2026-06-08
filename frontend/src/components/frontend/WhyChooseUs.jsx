@@ -1,20 +1,19 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Icon1 from "../../assets/images/icon-1.svg";
 import Icon2 from "../../assets/images/icon-2.svg";
 import Icon3 from "../../assets/images/icon-3.svg";
 
 const WhyChooseUs = () => {
+  const { t } = useTranslation();
   return (
     <section className="section-4">
       <div className="container py-5">
         <div className="section-header text-center">
-          <span>Why Choose Us</span>
-          <h2>Discover our wide variety of projects.</h2>
+          <span>{t('whyus.tag')}</span>
+          <h2>{t('whyus.title')}</h2>
           <p>
-            Created in close partnership with our clients and collaborators,
-            this approach merges industry expertise,
-            <br /> decades of experience, innovation, and flexibility to
-            consistently deliver excellence.
+            {t('whyus.subtitle')}
           </p>
         </div>
         <div className="row pt-4">
@@ -24,11 +23,9 @@ const WhyChooseUs = () => {
                 <img src={Icon1} alt="" />
               </div>
               <div className="card-title mt-3">
-                <h3>Cutting-Edge Solutions</h3>
+                <h3>{t('whyus.f1_title')}</h3>
                 <p>
-                  Small actions create big impacts. It all begins and ends with
-                  each employee committing to safer work practices daily,
-                  ensuring they return home safely.
+                  {t('whyus.f1_desc')}
                 </p>
               </div>
             </div>
@@ -39,11 +36,9 @@ const WhyChooseUs = () => {
                 <img src={Icon2} alt="" />
               </div>
               <div className="card-title mt-3">
-                <h3>Cutting-Edge Solutions</h3>
+                <h3>{t('whyus.f2_title')}</h3>
                 <p>
-                  Small actions create big impacts. It all begins and ends with
-                  each employee committing to safer work practices daily,
-                  ensuring they return home safely.
+                  {t('whyus.f2_desc')}
                 </p>
               </div>
             </div>
@@ -54,11 +49,9 @@ const WhyChooseUs = () => {
                 <img src={Icon3} alt="" />
               </div>
               <div className="card-title mt-3">
-                <h3>Cutting-Edge Solutions</h3>
+                <h3>{t('whyus.f3_title')}</h3>
                 <p>
-                  Small actions create big impacts. It all begins and ends with
-                  each employee committing to safer work practices daily,
-                  ensuring they return home safely.
+                  {t('whyus.f3_desc')}
                 </p>
               </div>
             </div>

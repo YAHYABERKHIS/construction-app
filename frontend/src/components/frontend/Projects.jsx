@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ProjectsImg from "../../assets/images/construction2.jpg";
 import { Link } from "react-router-dom";
 
 const Projects = () => {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState([]);
   const fetchAllProjects = async () => {
     try {
@@ -24,13 +26,10 @@ const Projects = () => {
       <section className="section-7">
         <div className="hero d-flex align-items-center">
           <div className="container">
-            <div className="text-left">
-              <span>Quality, Integrity, Value.</span>
-              <h1>Our Projects</h1>
-              <p>
-                We excel at transforming visions into reality <br /> through
-                outstanding craftsmanship and precise .
-              </p>
+            <div className="text-start">
+              <span>{t('common.quality_tag')}</span>
+              <h1 dangerouslySetInnerHTML={{ __html: t('projects_page.title') }}></h1>
+              <p dangerouslySetInnerHTML={{ __html: t('projects_page.subtitle') }}></p>
             </div>
           </div>
         </div>
@@ -38,11 +37,10 @@ const Projects = () => {
       <section className="section-3 bg-light py-5">
         <div className="container py-5">
           <div className="section-header text-center">
-            <span>Our Projects</span>
-            <h2>Discover our diverse range of projects</h2>
+            <span>{t('projects_page.section_tag')}</span>
+            <h2>{t('projects_page.section_title')}</h2>
             <p>
-              We offer a diverse array of construction services, spanning
-              residential, commercial, and industrial projects.
+              {t('projects_page.section_desc')}
             </p>
           </div>
           <div className="row pt-4">
@@ -71,7 +69,7 @@ const Projects = () => {
                           to={`/projects/${project.id}`}
                           className="btn btn-primary small-btn"
                         >
-                          Read More
+                          {t('common.learn_more')}
                         </Link>
                       </div>
                     </div>

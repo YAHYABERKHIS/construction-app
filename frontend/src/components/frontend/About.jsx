@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AboutUs from "../frontend/Aboutus";
 import MemberImg from "../../assets/images/team1.jpg";
 import Testimonials from "./Testimonials";
 
 const About = () => {
+  const { t } = useTranslation();
   const [members, setMembers] = useState([]);
   const fetchLatestMembers = async () => {
     try {
@@ -25,13 +27,10 @@ const About = () => {
       <section className="section-7">
         <div className="hero d-flex align-items-center">
           <div className="container">
-            <div className="text-left">
-              <span>Quality, Integrity, Value.</span>
-              <h1>About Us</h1>
-              <p>
-                We excel at transforming visions into reality <br /> through
-                outstanding craftsmanship and precise .
-              </p>
+            <div className="text-start">
+              <span>{t("common.quality_tag")}</span>
+              <h1>{t("about_page.title")}</h1>
+              <p dangerouslySetInnerHTML={{ __html: t("about_page.subtitle") }} />
             </div>
           </div>
         </div>
@@ -41,12 +40,9 @@ const About = () => {
         <section className="section-8 bg-light py-5">
           <div className="container">
             <div className="section-header text-center">
-              <span>Team</span>
-              <h2>Our Team</h2>
-              <p>
-                We specialize in a wide range of construction services,
-                including residential, commercial, and industrial projects.
-              </p>
+              <span>{t("about_page.team_tag")}</span>
+              <h2>{t("about_page.team_title")}</h2>
+              <p>{t("about_page.team_desc")}</p>
             </div>
             <div className="row pt-3">
               {members &&

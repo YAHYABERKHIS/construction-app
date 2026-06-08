@@ -1,62 +1,87 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
+  const [services, setServices] = useState([]);
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/get-services`);
+      const result = await response.json();
+      setServices(Array.isArray(result) ? result : []);
+    } catch (error) {
+      console.error(error);
+      setServices([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
 
   return (
     <footer>
       <div className="container py-5">
         <div className="row">
           <div className="col-md-3">
-            <h3 className="mb-3">UrbanEdge Constructions</h3>
+            <h3 className="mb-3">GHANI SAKAN</h3>
             <div className="pe-5">
               <p>
-                Our post-construction services gives you peace of mind knowing
-                that we are still here for you even after.
+                {t('footer.desc')}
               </p>
             </div>
           </div>
           <div className="col-md-3">
-            <h3 className="mb-3">Our Sevices</h3>
+            <h3 className="mb-3">{t('footer.services_title')}</h3>
             <ul>
-              <li>
-                <a href="">Speciality Construction</a>
+              {(services || []).slice(0, 8).map((service) => (
+                <li key={service.id}>
+                  <Link to={`/services/${service.id}`}>{service.title}</Link>
+                </li>
+              ))}
+              <li className="mt-2">
+                <Link to="/admin/login">{t('footer.admin_access')}</Link>
               </li>
             </ul>
           </div>
           <div className="col-md-3">
-            <h3 className="mb-3">Quick Links</h3>
+            <h3 className="mb-3">{t('footer.quick_links')}</h3>
             <ul>
               <li>
-                <a href="">About Us</a>
+                <Link to="/about">{t('nav.about')}</Link>
               </li>
               <li>
-                <a href="">Services</a>
+                <Link to="/services">{t('nav.services')}</Link>
               </li>
               <li>
-                <a href="">Projects</a>
+                <Link to="/projects">{t('nav.projects')}</Link>
               </li>
               <li>
-                <a href="">Blog</a>
+                <Link to="/blogs">{t('nav.blog')}</Link>
               </li>
               <li>
-                <a href="">Contact Us</a>
+                <Link to="/demander-service">{t('nav.contact')}</Link>
               </li>
             </ul>
           </div>
           <div className="col-md-3">
-            <h3 className="mb-3">Contact Us</h3>
+            <h3 className="mb-3">{t('footer.contact')}</h3>
             <ul>
-              <li>(888-000-0000)</li>
-              <li>info@example.com</li>
-              <li>B-18X, Rajaji Puram</li>
-              <li>Lucknow, Uttar Pradesh, 226017</li>
-              <li>0522400XXXX</li>
+              <li>
+                <a href="tel:+212665757519">0665757519</a>
+              </li>
+              <li>
+                <a href="mailto:ghanisakan@gmail.com">ghanisakan@gmail.com</a>
+              </li>
+              <li>71 BLOC 44 HAY ZOUHOUR SAFI</li>
             </ul>
           </div>
           <hr />
           <div className="text-center pt-4">
-            Copyright &copy; {year} All Rights Reserved.
+            Copyright &copy; {year} {t('footer.copyright')}
           </div>
         </div>
       </div>

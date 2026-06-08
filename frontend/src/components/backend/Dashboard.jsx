@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Sidebar from "../Sidebar";
 import {
   PieChart,
@@ -11,8 +12,15 @@ import {
 import useGetToken from "../../hooks/useGetToken";
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
   const [services, setServices] = useState(0);
   const { token } = useGetToken();
+
+  const dateLocale = i18n.language?.startsWith("ar")
+    ? "ar-MA"
+    : i18n.language?.startsWith("en")
+      ? "en-US"
+      : "fr-FR";
   const fetchServices = async () => {
     try {
       if (token) {
@@ -44,28 +52,28 @@ const Dashboard = () => {
   }, [token]);
   const stats = [
     {
-      title: "Total Visitors",
+      title: t("admin.stat_visitors"),
       value: "3,458",
       change: "+12.5%",
       icon: <Users size={24} />,
       color: "primary",
     },
     {
-      title: "New Projects",
+      title: t("admin.stat_projects"),
       value: "28",
       change: "+3.2%",
       icon: <Package size={24} />,
       color: "success",
     },
     {
-      title: "Completed Tasks",
+      title: t("admin.stat_tasks"),
       value: "156",
       change: "+8.7%",
       icon: <FileText size={24} />,
       color: "info",
     },
     {
-      title: "Active Services",
+      title: t("admin.stat_services"),
       value: services,
       change: "+5.1%",
       icon: <Activity size={24} />,
@@ -88,11 +96,11 @@ const Dashboard = () => {
               <div className="card-body p-4">
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
-                    <h5 className="text-muted fw-normal mb-1">Welcome back</h5>
-                    <h3 className="fw-bold">Admin Console</h3>
+                    <h5 className="text-muted fw-normal mb-1">{t("admin.welcome_back")}</h5>
+                    <h3 className="fw-bold">{t("admin.console_title")}</h3>
                   </div>
                   <span className="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
-                    {new Date().toLocaleDateString("en-US", {
+                    {new Date().toLocaleDateString(dateLocale, {
                       weekday: "long",
                       year: "numeric",
                       month: "short",
@@ -134,7 +142,7 @@ const Dashboard = () => {
               <div className="col-md-8">
                 <div className="card border-0 shadow-sm h-100">
                   <div className="card-header bg-transparent border-0 pt-4 pb-0">
-                    <h5 className="mb-0">Monthly Overview</h5>
+                    <h5 className="mb-0">{t("admin.monthly_overview")}</h5>
                   </div>
                   <div className="card-body p-4">
                     <div className="text-center" style={{ height: "240px" }}>
@@ -142,9 +150,7 @@ const Dashboard = () => {
                         size={280}
                         className="text-secondary opacity-50"
                       />
-                      <p className="text-muted mt-2">
-                        Sample chart visualization
-                      </p>
+                      <p className="text-muted mt-2">{t("admin.chart_sample")}</p>
                     </div>
                   </div>
                 </div>
@@ -153,7 +159,7 @@ const Dashboard = () => {
               <div className="col-md-4">
                 <div className="card border-0 shadow-sm h-100">
                   <div className="card-header bg-transparent border-0 pt-4 pb-0">
-                    <h5 className="mb-0">Project Status</h5>
+                    <h5 className="mb-0">{t("admin.project_status")}</h5>
                   </div>
                   <div className="card-body p-3 text-center">
                     <div

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\ArticleController;
+use App\Http\Controllers\admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\ProjectController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\admin\TestimonialController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\front\ArticleController as FrontArticleController;
+use App\Http\Controllers\front\AiController;
 use App\Http\Controllers\front\ContactController;
 use App\Http\Controllers\front\MemberController as FrontMemberController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
@@ -24,6 +26,10 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/authenticate', [AuthenticationController::class, 'authenticate']);
 Route::post('/contact-now', [ContactController::class, 'index']);
+
+// AI Features Routes
+Route::post('/chat', [AiController::class, 'chat']);
+Route::post('/quote', [AiController::class, 'generateQuote']);
 
 Route::get('get-services', [FrontServiceController::class, 'index']);
 Route::get('get-latest-services', [FrontServiceController::class, 'latestServices']);
@@ -64,6 +70,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('projects/{id}', [ProjectController::class, 'show']);
     Route::delete('projects/{id}', [ProjectController::class, 'destroy']);
 
+    // Contact Messages Routes
+    Route::get('messages', [AdminContactMessageController::class, 'index']);
+    Route::get('messages/{id}', [AdminContactMessageController::class, 'show']);
+    Route::put('messages/{id}/read', [AdminContactMessageController::class, 'markRead']);
+    Route::delete('messages/{id}', [AdminContactMessageController::class, 'destroy']);
+
     // Article Routes  
     Route::post('articles', [ArticleController::class, 'store']);
     Route::get('articles', [ArticleController::class, 'index']);
@@ -85,3 +97,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('members/{id}', [MemberController::class, 'show']);
     Route::delete('members/{id}', [MemberController::class, 'destroy']);
 });
+

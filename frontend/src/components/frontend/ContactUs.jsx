@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import useGetToken from "../../hooks/useGetToken";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ContactUs = () => {
-  const { token } = useGetToken();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -23,7 +23,6 @@ const ContactUs = () => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(data),
         }
@@ -49,13 +48,10 @@ const ContactUs = () => {
       <section className="section-7">
         <div className="hero d-flex align-items-center">
           <div className="container">
-            <div className="text-left">
-              <span>Quality, Integrity, Value.</span>
-              <h1>Contact Us</h1>
-              <p>
-                We excel at transforming visions into reality <br /> through
-                outstanding craftsmanship and precise .
-              </p>
+            <div className="text-start">
+              <span>{t('common.quality_tag')}</span>
+              <h1 dangerouslySetInnerHTML={{ __html: t('contact_page.title') }}></h1>
+              <p dangerouslySetInnerHTML={{ __html: t('contact_page.subtitle') }}></p>
             </div>
           </div>
         </div>
@@ -63,40 +59,25 @@ const ContactUs = () => {
       <section className="section-10 py-5">
         <div className="container">
           <div className="section-header text-center">
-            <span></span>
-            <h2>Contact Us</h2>
-            <p>
-              Our dedicated experts are here to help you with any of your
-              questions, contact us by
-              <br />
-              filling out the form below and we will be in touch shortly.
-            </p>
+            <span>{t('contact_page.section_tag')}</span>
+            <h2>{t('contact_page.section_title')}</h2>
+            <p dangerouslySetInnerHTML={{ __html: t('contact_page.section_desc') }}></p>
           </div>
           <div className="row mt-5">
             <div className="col-md-3">
               <div className="card shadow border-0 mb-3">
                 <div className="card-body p-4">
-                  <h3>Call Us</h3>
+                  <h3>{t('contact_page.call_us')}</h3>
                   <div>
-                    <a href="#">(123) 456-7890</a>
+                    <a href="tel:+212665757519">0665757519</a>
                   </div>
+                  <h3 className="mt-4">{t('contact_page.write_us')}</h3>
                   <div>
-                    <a href="#">(987) 654-3210</a>
+                    <a href="mailto:ghanisakan@gmail.com">ghanisakan@gmail.com</a>
                   </div>
-                  <h3 className="mt-4">You can write us</h3>
+                  <h3 className="mt-4">{t('contact_page.address')}</h3>
                   <div>
-                    <a href="#">info@example.com</a>
-                  </div>
-                  <div>
-                    <a href="#">example@example.com</a>
-                  </div>
-                  <h3 className="mt-4">Address</h3>
-                  <div>
-                    B-18X, Rajaji Puram
-                    <br />
-                    Lucknow, Uttar Pradesh, 226017
-                    <br />
-                    0522400XXXX
+                    71 BLOC 44 HAY ZOUHOUR SAFI
                   </div>
                 </div>
               </div>
@@ -108,16 +89,16 @@ const ContactUs = () => {
                     <div className="row">
                       <div className="col-md-6 mb-4">
                         <label htmlFor="" className="form-label">
-                          Name
+                          {t('contact_page.name')}
                         </label>
                         <input
                           type="text"
-                          placeholder="Enter Name"
+                          placeholder={t('contact_page.name_ph')}
                           className={`form-control form-control-lg ${
                             errors.name ? "is-invalid" : ""
                           }`}
                           {...register("name", {
-                            required: "This name field is required",
+                            required: t('contact_page.name_req'),
                           })}
                         />
                         {errors.name && (
@@ -128,7 +109,7 @@ const ContactUs = () => {
                       </div>
                       <div className="col-md-6 mb-4">
                         <label htmlFor="" className="form-label">
-                          Email
+                          {t('contact_page.email')}
                         </label>
                         <input
                           type="email"
@@ -136,13 +117,13 @@ const ContactUs = () => {
                             errors.email ? "is-invalid" : ""
                           }`}
                           {...register("email", {
-                            required: "Email is required",
+                            required: t('contact_page.email_req'),
                             pattern: {
                               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: "Please enter a valid email address",
+                              message: t('contact_page.email_invalid'),
                             },
                           })}
-                          placeholder="Enter Email"
+                          placeholder={t('contact_page.email_ph')}
                         />
                         {errors.name && (
                           <p className="invalid-feedback">
@@ -154,36 +135,36 @@ const ContactUs = () => {
                     <div className="row">
                       <div className="col-md-6 mb-4">
                         <label htmlFor="" className="form-label">
-                          Phone
+                          {t('contact_page.phone')}
                         </label>
                         <input
                           type="tel"
                           className="form-control form-control-lg"
-                          placeholder="Phone Number"
+                          placeholder={t('contact_page.phone_ph')}
                           {...register("phone")}
                         />
                       </div>
                       <div className="col-md-6 mb-4">
                         <label htmlFor="" className="form-label">
-                          Subject
+                          {t('contact_page.subject')}
                         </label>
                         <input
                           type="text"
                           className="form-control form-control-lg"
-                          placeholder="Subject"
+                          placeholder={t('contact_page.subject_ph')}
                           {...register("subject")}
                         />
                       </div>
                     </div>
                     <div>
                       <label htmlFor="" className="form-label">
-                        Message
+                        {t('contact_page.message')}
                       </label>
                       <textarea
                         name=""
                         id=""
                         rows={5}
-                        placeholder="Message"
+                        placeholder={t('contact_page.message_ph')}
                         className="form-control form-control-lg"
                         {...register("message")}
                       ></textarea>
@@ -192,7 +173,7 @@ const ContactUs = () => {
                       className="btn btn-primary large-btn mt-3"
                       disabled={loading}
                     >
-                      {loading ? "Submitting..." : "Submit"}
+                      {loading ? t('contact_page.sending') : t('contact_page.send')}
                     </button>
                   </form>
                 </div>

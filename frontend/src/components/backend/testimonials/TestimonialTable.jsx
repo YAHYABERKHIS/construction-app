@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import TestimonialTableRow from "./TestimonialTableRow";
 
 const TestimonialTable = ({
@@ -7,30 +8,34 @@ const TestimonialTable = ({
   searchTerm,
   onDelete,
 }) => {
-  // Get responsive column configuration
+  const { t } = useTranslation();
+
   const getColumns = () => {
     if (windowWidth < 576) {
       return [
         { key: "id", label: "ID" },
-        { key: "testimonial", label: "Testimonial" },
-        { key: "actions", label: "Actions" },
-      ];
-    } else if (windowWidth < 768) {
-      return [
-        { key: "id", label: "ID" },
-        { key: "testimonial", label: "Testimonial" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
-      ];
-    } else {
-      return [
-        { key: "id", label: "ID" },
-        { key: "testimonial", label: "Testimonial" },
-        { key: "citation", label: "Citation" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
+        { key: "image", label: t("admin.image") },
+        { key: "testimonial", label: t("admin.testimonial_col") },
+        { key: "actions", label: t("admin.actions") },
       ];
     }
+    if (windowWidth < 768) {
+      return [
+        { key: "id", label: "ID" },
+        { key: "image", label: t("admin.image") },
+        { key: "testimonial", label: t("admin.testimonial_col") },
+        { key: "status", label: t("admin.status") },
+        { key: "actions", label: t("admin.actions") },
+      ];
+    }
+    return [
+      { key: "id", label: "ID" },
+      { key: "image", label: t("admin.image") },
+      { key: "testimonial", label: t("admin.testimonial_col") },
+      { key: "citation", label: t("admin.citation") },
+      { key: "status", label: t("admin.status") },
+      { key: "actions", label: t("admin.actions") },
+    ];
   };
 
   const columns = getColumns();
@@ -62,9 +67,7 @@ const TestimonialTable = ({
                 colSpan={columns.length}
                 className="text-center fw-bold text-danger py-4"
               >
-                {searchTerm
-                  ? "No matching testimonials found"
-                  : "No Testimonial Available"}
+                {searchTerm ? t("admin.no_testimonials_match") : t("admin.no_testimonials")}
               </td>
             </tr>
           )}

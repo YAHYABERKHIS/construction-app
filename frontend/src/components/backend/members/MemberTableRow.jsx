@@ -6,7 +6,7 @@ import useGetToken from "../../../hooks/useGetToken";
 const MemberTableRow = ({ member, columns, windowWidth, onDelete }) => {
   const { token } = useGetToken();
   const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete?")) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ?")) {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/members/${member.id}`,
         {
@@ -32,6 +32,25 @@ const MemberTableRow = ({ member, columns, windowWidth, onDelete }) => {
         switch (column.key) {
           case "id":
             return <td key={column.key}>{member.id}</td>;
+          case "image":
+            return (
+              <td key={column.key}>
+                {member.image ? (
+                  <img
+                    src={`${import.meta.env.VITE_FILE_URL}/uploads/members/${member.image}`}
+                    alt={member.name}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      objectFit: "cover",
+                      borderRadius: 999,
+                    }}
+                  />
+                ) : (
+                  <span className="text-muted">—</span>
+                )}
+              </td>
+            );
           case "name":
             return <td key={column.key}>{member.name}</td>;
           case "job_title":
@@ -44,7 +63,7 @@ const MemberTableRow = ({ member, columns, windowWidth, onDelete }) => {
                     member.status === "1" ? "bg-success" : "bg-danger"
                   } rounded-pill px-2 py-1`}
                 >
-                  {member.status === "1" ? "Active" : "Block"}
+                  {member.status === "1" ? "Actif" : "Bloqué"}
                 </span>
               </td>
             );
@@ -56,14 +75,14 @@ const MemberTableRow = ({ member, columns, windowWidth, onDelete }) => {
                     to={`/admin/members/edit/${member.id}`}
                     className="btn btn-primary btn-sm me-1 mb-1"
                   >
-                    {windowWidth < 400 ? "E" : "Edit"}
+                    {windowWidth < 400 ? "M" : "Modifier"}
                   </Link>
                   <Link
                     to="#"
                     onClick={handleDelete}
                     className="btn btn-secondary btn-sm mb-1"
                   >
-                    {windowWidth < 400 ? "D" : "Delete"}
+                    {windowWidth < 400 ? "S" : "Supprimer"}
                   </Link>
                 </div>
               </td>

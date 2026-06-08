@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ContactEmail;
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -29,11 +30,20 @@ class ContactController extends Controller
             'message' => $request->message,
         ];
 
-        Mail::to('abhijit@gmail.com')->send(new ContactEmail($mailData));
+        ContactMessage::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'is_read' => false,
+        ]);
+
+        Mail::to('yahyaberrkhis@gmail.com')->send(new ContactEmail($mailData));
 
         return response()->json([
             'status' => true,
-            'message' => 'Thanks for contacting us.',
+            'message' => 'Merci de nous avoir contactés.',
         ]);
     }
 }

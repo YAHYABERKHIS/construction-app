@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 const BlogNews = ({ limit = 3 }) => {
+  const { t } = useTranslation();
   const [articles, setArticle] = useState([]);
   const fetchLatestArticles = async () => {
     try {
@@ -23,12 +26,9 @@ const BlogNews = ({ limit = 3 }) => {
     <section className="section-6 bg-light py-5">
       <div className="container">
         <div className="section-header text-center">
-          <span>Blog & News</span>
-          <h2>Articles & blog posts</h2>
-          <p>
-            We offer a diverse array of construction services, spanning
-            residential, commercial, and industrial projects.
-          </p>
+          <span>{t("blog_section.tag")}</span>
+          <h2>{t("blog_section.title")}</h2>
+          <p>{t("blog_section.desc")}</p>
         </div>
         <div className="row pt-3">
           {articles &&
@@ -58,7 +58,7 @@ const BlogNews = ({ limit = 3 }) => {
                         to={`/blogs/${article.id}`}
                         className="btn btn-primary small-btn"
                       >
-                        Read More
+                        {t("common.learn_more")}
                       </Link>
                     </div>
                   </div>

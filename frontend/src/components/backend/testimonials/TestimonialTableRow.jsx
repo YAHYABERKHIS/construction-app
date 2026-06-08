@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useGetToken from "../../../hooks/useGetToken";
@@ -9,9 +10,11 @@ const TestimonialTableRow = ({
   windowWidth,
   onDelete,
 }) => {
+  const { t } = useTranslation();
   const { token } = useGetToken();
+
   const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete?")) {
+    if (confirm(t("admin.confirm_delete"))) {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/testimonials/${testimonial.id}`,
         {
@@ -37,6 +40,25 @@ const TestimonialTableRow = ({
         switch (column.key) {
           case "id":
             return <td key={column.key}>{testimonial.id}</td>;
+          case "image":
+            return (
+              <td key={column.key}>
+                {testimonial.image ? (
+                  <img
+                    src={`${import.meta.env.VITE_FILE_URL}/uploads/testimonials/small/${testimonial.image}`}
+                    alt={testimonial.citation || t("admin.testimonials")}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      objectFit: "cover",
+                      borderRadius: 999,
+                    }}
+                  />
+                ) : (
+                  <span className="text-muted">—</span>
+                )}
+              </td>
+            );
           case "testimonial":
             return <td key={column.key}>{testimonial.testimonial}</td>;
           case "citation":
@@ -49,7 +71,7 @@ const TestimonialTableRow = ({
                     testimonial.status ? "bg-success" : "bg-danger"
                   } rounded-pill px-2 py-1`}
                 >
-                  {testimonial.status ? "Active" : "Block"}
+                  {testimonial.status ? t("admin.active") : t("admin.blocked")}
                 </span>
               </td>
             );
@@ -61,14 +83,14 @@ const TestimonialTableRow = ({
                     to={`/admin/testimonials/edit/${testimonial.id}`}
                     className="btn btn-primary btn-sm me-1 mb-1"
                   >
-                    {windowWidth < 400 ? "E" : "Edit"}
+                    {windowWidth < 400 ? "M" : t("admin.edit")}
                   </Link>
                   <Link
                     to="#"
                     onClick={handleDelete}
                     className="btn btn-secondary btn-sm mb-1"
                   >
-                    {windowWidth < 400 ? "D" : "Delete"}
+                    {windowWidth < 400 ? "S" : t("admin.delete")}
                   </Link>
                 </div>
               </td>

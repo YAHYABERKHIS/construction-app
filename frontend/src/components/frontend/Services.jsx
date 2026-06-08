@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ServiceImg from "../../assets/images/construction1.jpg";
 
 const Services = () => {
+  const { t } = useTranslation();
   const [services, setSevices] = useState([]);
   const fetchLatestServices = async () => {
     try {
@@ -22,24 +24,20 @@ const Services = () => {
     <section className="section-9">
       <div className="hero d-flex align-items-center">
         <div className="container">
-          <div className="text-left">
-            <span>Quality, Integrity, Value.</span>
-            <h1>Services</h1>
-            <p>
-              We excel at transforming visions into reality <br /> through
-              outstanding craftsmanship and precise .
-            </p>
+          <div className="text-start">
+            <span>{t('common.quality_tag')}</span>
+            <h1 dangerouslySetInnerHTML={{ __html: t('services_page.title') }}></h1>
+            <p dangerouslySetInnerHTML={{ __html: t('services_page.subtitle') }}></p>
           </div>
         </div>
       </div>
       <section className="section-3 bg-light py-5">
         <div className="container py-5">
           <div className="section-header text-center">
-            <span>Our Services</span>
-            <h2>Our construction services</h2>
+            <span>{t('services_page.section_tag')}</span>
+            <h2>{t('services_page.section_title')}</h2>
             <p>
-              We offer a diverse array of construction services, spanning
-              residential, commercial, and industrial projects.
+              {t('services_page.section_desc')}
             </p>
           </div>
           <div className="row pt-4">
@@ -70,7 +68,7 @@ const Services = () => {
                           href={`/services/${service.id}`}
                           className="btn btn-primary small-btn"
                         >
-                          Read More
+                          {t('common.learn_more')}
                         </a>
                       </div>
                     </div>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 const ArticleDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [article, setArticle] = useState([]);
   const [latestArticles, setLatestArticles] = useState([]);
@@ -37,9 +39,9 @@ const ArticleDetails = () => {
       <section className="section-12">
         <div className="hero d-flex align-items-center">
           <div className="container">
-            <div className="text-left">
-              <span>Quality, Integrity, Value.</span>
-              <h1>Blog & News</h1>
+            <div className="text-start">
+              <span>{t("common.quality_tag")}</span>
+              <h1>{t("details.blog_hero")}</h1>
             </div>
           </div>
         </div>
@@ -48,7 +50,7 @@ const ArticleDetails = () => {
             <div className="col-md-8">
               <h2>{article.title}</h2>
               <div className="pb-3">
-                by <strong>{article.author}</strong> on {article.created_at}
+                {t("details.by_author")} <strong>{article.author}</strong> {t("details.on_date")} {article.created_at}
               </div>
               <div className="pr-md-5 pb-3">
                 <img
@@ -64,7 +66,7 @@ const ArticleDetails = () => {
             <div className="col-md-4">
               <div className="card shadow border-0 sidebar">
                 <div className="card-body px-5 py-4">
-                  <h3 className="mt-2 mb-3">Latest Blogs</h3>
+                  <h3 className="mt-2 mb-3">{t("details.latest_articles")}</h3>
                   {latestArticles &&
                     latestArticles.map((article) => {
                       return (

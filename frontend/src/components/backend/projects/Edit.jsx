@@ -111,7 +111,7 @@ const Edit = ({ placeholder }) => {
         });
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong while uploading the image.");
+      toast.error("Une erreur est survenue lors de l’envoi de l’image.");
     } finally {
       setIsDisable(false);
     }
@@ -130,27 +130,27 @@ const Edit = ({ placeholder }) => {
                 <div className="d-flex justify-content-between">
                   <h4 className="h-5 d-flex">
                     <FolderOpen size={28} className="me-2" />
-                    {`Projects > Edit`}
+                    {`Projets > Modifier`}
                   </h4>
                   <Link to="/admin/projects" className="btn btn-primary d-flex">
                     <ArrowLeftCircle className="me-2" />
-                    Back
+                    Retour
                   </Link>
                 </div>
                 <hr />
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-3">
                     <label htmlFor="" className="form-label">
-                      Name
+                      Nom
                     </label>
                     <input
                       type="text"
                       className={`form-control ${
                         errors.title ? "is-invalid" : ""
                       }`}
-                      placeholder="Enter name"
+                      placeholder="Entrez le nom"
                       {...register("title", {
-                        required: "This title field is required",
+                        required: "Le nom est obligatoire",
                       })}
                     />
                     {errors.title && (
@@ -168,9 +168,9 @@ const Edit = ({ placeholder }) => {
                       className={`form-control ${
                         errors.slug ? "is-invalid" : ""
                       }`}
-                      placeholder="Enter Slug"
+                      placeholder="Entrez le slug"
                       {...register("slug", {
-                        required: "This slug field is required",
+                        required: "Le slug est obligatoire",
                       })}
                     />
                     {errors.slug && (
@@ -181,10 +181,10 @@ const Edit = ({ placeholder }) => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="" className="form-label">
-                      Short Description
+                      Description courte
                     </label>
                     <textarea
-                      placeholder="Short Desciption"
+                      placeholder="Description courte"
                       className="form-control"
                       {...register("short_desc")}
                     ></textarea>
@@ -193,16 +193,16 @@ const Edit = ({ placeholder }) => {
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="" className="form-label">
-                          Location
+                          Localisation
                         </label>
                         <input
                           type="text"
                           className={`form-control ${
                             errors.location ? "is-invalid" : ""
                           }`}
-                          placeholder="Enter Location"
+                          placeholder="Entrez la localisation"
                           {...register("location", {
-                            required: "This location field is required",
+                            required: "La localisation est obligatoire",
                           })}
                         />
                         {errors.location && (
@@ -215,7 +215,7 @@ const Edit = ({ placeholder }) => {
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="" className="form-label">
-                          Construction Type
+                          Type de construction
                         </label>
                         <select
                           className={`form-control ${
@@ -223,21 +223,21 @@ const Edit = ({ placeholder }) => {
                           }`}
                           {...register("construction_type", {
                             required:
-                              "This Construction Type field is required",
+                              "Le type de construction est obligatoire",
                           })}
                         >
-                          <option value="">Construction Type</option>
+                          <option value="">Type de construction</option>
                           <option value="Residential Construction">
-                            Residential Construction
+                            Construction résidentielle
                           </option>
                           <option value="Commercial Construction">
-                            Commercial Construction
+                            Construction commerciale
                           </option>
                           <option value="Industrial Construction">
-                            Industrial Construction
+                            Construction industrielle
                           </option>
                           <option value="Infrastructure Construction">
-                            Infrastructure Construction
+                            Construction d’infrastructure
                           </option>
                         </select>
                         {errors.construction_type && (
@@ -252,41 +252,41 @@ const Edit = ({ placeholder }) => {
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="" className="form-label">
-                          Sector
+                          Secteur
                         </label>
                         <select
                           className={`form-control ${
                             errors.sector ? "is-invalid" : ""
                           }`}
                           {...register("sector", {
-                            required: "This sector field is required",
+                            required: "Le secteur est obligatoire",
                           })}
                         >
-                          <option value="">Sector</option>
-                          <option value="Health">Health</option>
-                          <option value="Education">Education</option>
-                          <option value="Corporate">Corporate</option>
+                          <option value="">Secteur</option>
+                          <option value="Health">Santé</option>
+                          <option value="Education">Éducation</option>
+                          <option value="Corporate">Entreprise</option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="mb-3">
                         <label htmlFor="" className="form-label">
-                          Status
+                          Statut
                         </label>
                         <select
                           className="form-control"
                           {...register("status")}
                         >
-                          <option value="1">Active</option>
-                          <option value="0">Block</option>
+                          <option value="1">Actif</option>
+                          <option value="0">Bloqué</option>
                         </select>
                       </div>
                     </div>
                   </div>
                   <div className="mb-3">
                     <label htmlFor="" className="form-label">
-                      Content
+                      Contenu
                     </label>
                     <JoditEditor
                       ref={editor}
@@ -317,7 +317,7 @@ const Edit = ({ placeholder }) => {
                     className="btn btn-primary w-100"
                     disabled={isDisable}
                   >
-                    {loading ? "Updating..." : "Update"}
+                    {loading ? "Mise à jour..." : "Mettre à jour"}
                   </button>
                 </form>
               </div>

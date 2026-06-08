@@ -1,26 +1,30 @@
 import React from "react";
-import { FolderOpen, PlusCircleIcon, RefreshCw, Users } from "lucide-react";
+import { PlusCircleIcon, RefreshCw, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import useAdminForm from "../../../hooks/useAdminForm";
 
 const MemberHeader = ({ windowWidth, onRefresh }) => {
+  const { t } = useAdminForm();
+
   return (
     <div className="d-flex flex-wrap justify-content-between mb-3">
       <h4 className="h5 d-flex align-items-center mb-3 mb-sm-0">
-        <Users size={windowWidth < 576 ? 20 : 28} className="me-2" />
-        Members
+        <Users size={windowWidth < 576 ? 20 : 28} className="admin-header-icon" />
+        {t("admin.members")}
       </h4>
       <div className="d-flex flex-wrap">
         <Link
           to="create"
-          className="btn btn-primary btn-sm d-flex align-items-center me-2 mb-2 mb-sm-0"
+          className="btn btn-primary btn-sm d-flex align-items-center admin-btn-gap mb-2 mb-sm-0"
         >
-          <PlusCircleIcon size={windowWidth < 576 ? 16 : 20} className="me-1" />
-          <span>Create</span>
+          <PlusCircleIcon size={windowWidth < 576 ? 16 : 20} className="admin-header-icon-sm" />
+          <span>{t("admin.create")}</span>
         </Link>
         <button
-          className="btn btn-outline-secondary btn-sm d-flex align-items-center mb-2 mb-sm-0 me-2"
+          type="button"
+          className="btn btn-outline-secondary btn-sm d-flex align-items-center mb-2 mb-sm-0 admin-btn-gap"
           onClick={onRefresh}
-          title="Refresh"
+          title={t("admin.refresh")}
         >
           <RefreshCw size={windowWidth < 576 ? 16 : 20} />
         </button>
